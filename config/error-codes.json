@@ -1,0 +1,218 @@
+[
+  {
+    "statusCode": 500,
+    "errorCode": 1000,
+    "message": "Lo sentimos ha ocurrido un error en el servidor"
+  },
+  {
+    "statusCode": 400,
+    "errorCode": 1000,
+    "message": "Peticion no esta bien formada, La informacion"
+  },
+
+  {
+    "statusCode": 417,
+    "errorCode": 1001,
+    "message": "Encabezados faltantes"
+  },
+  {
+    "statusCode": 412,
+    "errorCode": 1002,
+    "message": "Parámetros faltantes"
+  },
+  {
+    "statusCode": 507,
+    "errorCode": 1003,
+    "message": "Límite o desplazamiento no válido"
+  },
+  {
+    "statusCode": 500,
+    "errorCode": 1004,
+    "message": "Configuración regional no válida"
+  },
+  {
+    "statusCode": 500,
+    "errorCode": 1005,
+    "message": "Zona horaria no válida"
+  },
+  {
+    "statusCode": 429,
+    "errorCode": 1006,
+    "message": "Excedió el límite de solicitudes por minuto. Vuelva a intentarlo después de un tiempo"
+  },
+  {
+    "statusCode": 401,
+    "errorCode": 1101,
+    "message": "No autorizado"
+  },
+  {
+    "statusCode": 401,
+    "errorCode": 1102,
+    "message": "No autorizado para acceder"
+  },
+  {
+    "statusCode": 416,
+    "errorCode": 1103,
+    "message": "Entidad no procesable"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1104,
+    "message": "Autenticación fallida"
+  },
+  {
+    "statusCode": 410,
+    "errorCode": 1105,
+    "message": "Archivo o recurso No encontrado"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1201,
+    "message": "La sesión ha caducado"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1202,
+    "message": "Error de verificación de JWT"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1203,
+    "message": "Error encontrado mientras decoding JWT token"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1204,
+    "message": "Token no válido"
+  },
+  {
+    "statusCode": 401,
+    "errorCode": 1205,
+    "message": "No está autorizado, inicie sesión"
+  },
+  {
+    "statusCode": 401,
+    "errorCode": 1206,
+    "message": "Error de autenticación, usuario no encontrado"
+  },
+  {
+    "statusCode": 401,
+    "errorCode": 1206,
+    "message": "Error de autenticación, usuario no encontrado"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1301,
+    "message": "Credenciales no válidas"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1302,
+    "message": "Tipo de inicio de sesión no válido"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1303,
+    "message": "Tipo social no válido"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1304,
+    "message": "Error de inicio de sesión"
+  },
+  {
+    "statusCode": 401,
+    "errorCode": 1305,
+    "message": "Su cuenta está deshabilitada por el administrador"
+  },
+  {
+    "statusCode": 401,
+    "errorCode": 1307,
+    "message": "Código de confirmación incorrecto, Intentar nuevamente"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1308,
+    "message": "Contraseña incorrecta"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1309,
+    "message": "Su cuenta ya existe en la aplicación"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1310,
+    "message": "Su solicitud no es válida o su tiempo de solicitud ha terminado. Vuelva a intentarlo"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1311,
+    "message": "No está autorizado para acceder a esta aplicación"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1313,
+    "message": "Su correo electrónico aún no está confirmado"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1314,
+    "message": "El enlace de correo electrónico ha caducado"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1315,
+    "message": "Su cuenta no está activada Verifique su correo electrónico para activar la cuenta"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1316,
+    "message": "No puede eliminar al usuario hasta que su solicitud hayan sido completada o cancelada"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1317,
+    "message": "Este número ya se ha registrado"
+  },
+  {
+    "statusCode": 511,
+    "errorCode": 1318,
+    "message": "Por favor, antes de iniciar sesión con la cuenta de Google, primero regístrese"
+  },
+  {
+    "statusCode": 303,
+    "errorCode": 1319,
+    "message": "Sus datos son incorrectos"
+  },
+  {
+    "statusCode": 401,
+    "errorCode": 1320,
+    "message": "¡El código de confirmación ha expirado! Vuelva a intentarlo"
+  },
+  {
+    "statusCode": 303,
+    "errorCode": 1321,
+    "message": "No puede eliminar el proveedor hasta que haya completado o cancelado sus solicitudes"
+  },
+  {
+    "statusCode": 503,
+    "errorCode": 1322,
+    "message": "Su cuenta fue bloqueada por el administrador"
+  },
+  {
+    "statusCode": 400,
+    "errorCode": 1323,
+    "message": "El carnet del usuario ya existe"
+  },
+  {
+    "statusCode": 400,
+    "errorCode": 1324,
+    "message": "El usuario con el correo no existe"
+  },
+  {
+    "statusCode": 400,
+    "errorCode": 1325,
+    "message": "El link ya ha sido usado."
+  }
+]
