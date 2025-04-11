@@ -1,0 +1,6 @@
+// para traducir codigo moderno de javascrip, a codigo estandar de javascript
+{
+  "presets": [
+		"@babel/preset-env"
+   ]
+}

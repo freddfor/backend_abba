@@ -1,0 +1,2127 @@
+{
+    "tables": {
+        "afps": {
+            "tableName": "afps",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nombre": {
+                    "field": "nombre",
+                    "seqType": "Sequelize.STRING"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "afp_clientes": {
+            "tableName": "afp_clientes",
+            "schema": {
+                "created_at": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "fk_afp": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "afps",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "fk_afp",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_cliente": {
+                    "primaryKey": true,
+                    "references": {
+                        "model": "clientes",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "field": "fk_cliente",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "clientes": {
+            "tableName": "clientes",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "ci": {
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "ci",
+                    "seqType": "Sequelize.STRING"
+                },
+                "expedido": {
+                    "field": "expedido",
+                    "seqType": "Sequelize.STRING"
+                },
+                "nombres": {
+                    "field": "nombres",
+                    "seqType": "Sequelize.STRING"
+                },
+                "apellidos": {
+                    "field": "apellidos",
+                    "seqType": "Sequelize.STRING"
+                },
+                "correo": {
+                    "field": "correo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "celular": {
+                    "field": "celular",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "celular_ref": {
+                    "field": "celular_ref",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fecha_nac": {
+                    "field": "fecha_nac",
+                    "seqType": "Sequelize.DATE"
+                },
+                "lugar_trabajo": {
+                    "field": "lugar_trabajo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "residencia": {
+                    "field": "residencia",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_rubro": {
+                    "field": "fk_rubro",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_promotor": {
+                    "field": "fk_promotor",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "activo": {
+                    "defaultValue": {
+                        "value": true
+                    },
+                    "field": "activo",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "cliente_consulta": {
+            "tableName": "cliente_consulta",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "descripcion": {
+                    "field": "descripcion",
+                    "seqType": "Sequelize.STRING"
+                },
+                "estado": {
+                    "field": "estado",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fecha": {
+                    "field": "fecha",
+                    "seqType": "Sequelize.DATE"
+                },
+                "fk_motivo": {
+                    "field": "fk_motivo",
+                    "allowNull": true,
+                    "references": {
+                        "model": "motivos",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "unique": "cliente_consulta_fk_motivo_fk_cliente_unique",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_cliente": {
+                    "field": "fk_cliente",
+                    "allowNull": true,
+                    "references": {
+                        "model": "clientes",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "unique": "cliente_consulta_fk_motivo_fk_cliente_unique",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_user": {
+                    "field": "fk_user",
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "contratos": {
+            "tableName": "contratos",
+            "schema": {
+                "codigo_contrato": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "codigo_contrato",
+                    "seqType": "Sequelize.STRING"
+                },
+                "total": {
+                    "field": "total",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "departamento": {
+                    "field": "departamento",
+                    "seqType": "Sequelize.STRING"
+                },
+                "dh_primerg": {
+                    "field": "dh_primerg",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "dh_tercerg": {
+                    "field": "dh_tercerg",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fsa": {
+                    "field": "fsa",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "ccm": {
+                    "field": "ccm",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "fs": {
+                    "field": "fs",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "fr": {
+                    "field": "fr",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "a_reparto": {
+                    "field": "a_reparto",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "a_sip": {
+                    "field": "a_sip",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "a_hijos": {
+                    "field": "a_hijos",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "a_insalubre": {
+                    "field": "a_insalubre",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "tipo_cc": {
+                    "field": "tipo_cc",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "monto_cc": {
+                    "field": "monto_cc",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "conclusiones": {
+                    "field": "conclusiones",
+                    "seqType": "Sequelize.STRING"
+                },
+                "recomendaciones": {
+                    "field": "recomendaciones",
+                    "seqType": "Sequelize.STRING"
+                },
+                "fecha_finalizacion": {
+                    "field": "fecha_finalizacion",
+                    "seqType": "Sequelize.DATE"
+                },
+                "finalizado": {
+                    "field": "finalizado",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "fk_cliente": {
+                    "field": "fk_cliente",
+                    "allowNull": true,
+                    "references": {
+                        "model": "clientes",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.UUIDV4"
+                },
+                "fk_prestacion": {
+                    "field": "fk_prestacion",
+                    "allowNull": true,
+                    "references": {
+                        "model": "prestaciones",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_titular": {
+                    "field": "fk_titular",
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_suplente": {
+                    "field": "fk_suplente",
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "contrato_pagos": {
+            "tableName": "contrato_pagos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "monto_cancelado": {
+                    "field": "monto_cancelado",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "fecha": {
+                    "field": "fecha",
+                    "seqType": "Sequelize.DATE"
+                },
+                "fk_contrato": {
+                    "field": "fk_contrato",
+                    "allowNull": true,
+                    "references": {
+                        "model": "contratos",
+                        "key": "codigo_contrato"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.STRING"
+                },
+                "fk_deposito": {
+                    "field": "fk_deposito",
+                    "allowNull": true,
+                    "references": {
+                        "model": "pago_depositos",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_efectivo": {
+                    "field": "fk_efectivo",
+                    "allowNull": true,
+                    "references": {
+                        "model": "pago_efectivos",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "fk_user_created": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "fk_user_created",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "contrato_proceso_tareas": {
+            "tableName": "contrato_proceso_tareas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fecha_inicio": {
+                    "field": "fecha_inicio",
+                    "seqType": "Sequelize.DATE"
+                },
+                "fecha_fin": {
+                    "field": "fecha_fin",
+                    "seqType": "Sequelize.DATE"
+                },
+                "fecha_conclusion": {
+                    "field": "fecha_conclusion",
+                    "seqType": "Sequelize.DATE"
+                },
+                "detalle": {
+                    "field": "detalle",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tarea": {
+                    "field": "tarea",
+                    "seqType": "Sequelize.STRING"
+                },
+                "estado": {
+                    "field": "estado",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_tarea": {
+                    "field": "fk_tarea",
+                    "unique": "contrato_proceso_tareas_fk_tarea_fk_contrato_unique",
+                    "references": {
+                        "model": "tareas",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "allowNull": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_contrato": {
+                    "field": "fk_contrato",
+                    "unique": "contrato_proceso_tareas_fk_tarea_fk_contrato_unique",
+                    "references": {
+                        "model": "contratos",
+                        "key": "codigo_contrato"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "allowNull": true,
+                    "seqType": "Sequelize.STRING"
+                },
+                "fk_proceso": {
+                    "field": "fk_proceso",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_prestacion": {
+                    "field": "fk_prestacion",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_responsable": {
+                    "field": "fk_responsable",
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "contrato_requisitos": {
+            "tableName": "contrato_requisitos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "autoIncrement": true,
+                    "field": "id",
+                    "seqType": "Sequelize.STRING"
+                },
+                "entregado": {
+                    "field": "entregado",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "correcto": {
+                    "field": "correcto",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "observado": {
+                    "field": "observado",
+                    "seqType": "Sequelize.STRING"
+                },
+                "requisito": {
+                    "field": "requisito",
+                    "seqType": "Sequelize.STRING"
+                },
+                "fk_tipo_cliente": {
+                    "field": "fk_tipo_cliente",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_contrato": {
+                    "field": "fk_contrato",
+                    "unique": "contrato_requisitos_fk_contrato_fk_requisito_unique",
+                    "references": {
+                        "model": "contratos",
+                        "key": "codigo_contrato"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "allowNull": true,
+                    "seqType": "Sequelize.STRING"
+                },
+                "fk_requisito": {
+                    "field": "fk_requisito",
+                    "unique": "contrato_requisitos_fk_contrato_fk_requisito_unique",
+                    "references": {
+                        "model": "requisitos",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "cuentas": {
+            "tableName": "cuentas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "titulo": {
+                    "field": "titulo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "ingreso": {
+                    "field": "ingreso",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "fk_subgrupo_cuenta": {
+                    "field": "fk_subgrupo_cuenta",
+                    "allowNull": true,
+                    "references": {
+                        "model": "subgrupo_cuentas",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "cuenta_bancarias": {
+            "tableName": "cuenta_bancarias",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nro_cuenta": {
+                    "field": "nro_cuenta",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "banco": {
+                    "field": "banco",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "titular": {
+                    "field": "titular",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "departamentos": {
+            "tableName": "departamentos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nombre": {
+                    "field": "nombre",
+                    "seqType": "Sequelize.STRING"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "feriados": {
+            "tableName": "feriados",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fecha": {
+                    "field": "fecha",
+                    "seqType": "Sequelize.DATE"
+                },
+                "descripcion": {
+                    "field": "descripcion",
+                    "seqType": "Sequelize.STRING"
+                },
+                "fk_departamento": {
+                    "field": "fk_departamento",
+                    "allowNull": true,
+                    "references": {
+                        "model": "departamentos",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "grupo_cuentas": {
+            "tableName": "grupo_cuentas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "titulo": {
+                    "field": "titulo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "ingreso": {
+                    "field": "ingreso",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "libro_diarios": {
+            "tableName": "libro_diarios",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "monto": {
+                    "field": "monto",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "fecha": {
+                    "field": "fecha",
+                    "seqType": "Sequelize.DATE"
+                },
+                "fk_cuenta": {
+                    "field": "fk_cuenta",
+                    "allowNull": true,
+                    "references": {
+                        "model": "cuentas",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_deposito": {
+                    "field": "fk_deposito",
+                    "allowNull": true,
+                    "references": {
+                        "model": "pago_depositos",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_efectivo": {
+                    "field": "fk_efectivo",
+                    "allowNull": true,
+                    "references": {
+                        "model": "pago_efectivos",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "fk_user_created": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "fk_user_created",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "menus": {
+            "tableName": "menus",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_menu": {
+                    "allowNull": true,
+                    "field": "fk_menu",
+                    "references": {
+                        "model": "menus",
+                        "key": "id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "name": {
+                    "allowNull": false,
+                    "field": "name",
+                    "seqType": "Sequelize.STRING(80)"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING(150)"
+                },
+                "link": {
+                    "allowNull": true,
+                    "field": "link",
+                    "seqType": "Sequelize.STRING(150)"
+                },
+                "index": {
+                    "field": "index",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "append": {
+                    "field": "append",
+                    "seqType": "Sequelize.STRING(20)"
+                },
+                "append_class": {
+                    "field": "append_class",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "class_name": {
+                    "field": "class_name",
+                    "seqType": "Sequelize.STRING(100)"
+                },
+                "is_icon_class": {
+                    "field": "is_icon_class",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "icon": {
+                    "field": "icon",
+                    "seqType": "Sequelize.STRING(50)"
+                },
+                "is_heading": {
+                    "field": "is_heading",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "is_active": {
+                    "default": true,
+                    "field": "is_active",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "motivos": {
+            "tableName": "motivos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "motivo": {
+                    "field": "motivo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "monto": {
+                    "field": "monto",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "niveles": {
+            "tableName": "niveles",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nivel": {
+                    "allowNull": false,
+                    "field": "nivel",
+                    "seqType": "Sequelize.STRING"
+                },
+                "descripcion": {
+                    "field": "descripcion",
+                    "seqType": "Sequelize.STRING"
+                }
+            },
+            "indexes": []
+        },
+        "pago_depositos": {
+            "tableName": "pago_depositos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_cuenta": {
+                    "field": "fk_cuenta",
+                    "allowNull": true,
+                    "references": {
+                        "model": "cuenta_bancarias",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nro_deposito": {
+                    "field": "nro_deposito",
+                    "seqType": "Sequelize.STRING"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "pago_efectivos": {
+            "tableName": "pago_efectivos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nro_comprobante": {
+                    "field": "nro_comprobante",
+                    "seqType": "Sequelize.STRING"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "prestaciones": {
+            "tableName": "prestaciones",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nombre": {
+                    "field": "nombre",
+                    "seqType": "Sequelize.STRING"
+                },
+                "grupo": {
+                    "field": "grupo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "codigo": {
+                    "field": "codigo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "monto": {
+                    "field": "monto",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "fk_servicio": {
+                    "field": "fk_servicio",
+                    "allowNull": true,
+                    "references": {
+                        "model": "servicios",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "prestacion_procesos": {
+            "tableName": "prestacion_procesos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_prestacion": {
+                    "field": "fk_prestacion",
+                    "unique": "prestacion_procesos_fk_proceso_fk_prestacion_unique",
+                    "references": {
+                        "model": "prestaciones",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "allowNull": true,
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_proceso": {
+                    "field": "fk_proceso",
+                    "unique": "prestacion_procesos_fk_proceso_fk_prestacion_unique",
+                    "references": {
+                        "model": "procesos",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "allowNull": true,
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "prestacion_requisitos": {
+            "tableName": "prestacion_requisitos",
+            "schema": {
+                "fk_prestacion": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "fk_prestacion",
+                    "unique": "prestacion_requisitos_fk_requisito_fk_prestacion_unique",
+                    "references": {
+                        "model": "prestaciones",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_requisito": {
+                    "allowNull": false,
+                    "primaryKey": true,
+                    "field": "fk_requisito",
+                    "unique": "prestacion_requisitos_fk_requisito_fk_prestacion_unique",
+                    "references": {
+                        "model": "requisitos",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "prestacion_tipo_clientes": {
+            "tableName": "prestacion_tipo_clientes",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_prestacion": {
+                    "field": "fk_prestacion",
+                    "unique": "prestacion_tipo_clientes_fk_tipo_cliente_fk_prestacion_unique",
+                    "references": {
+                        "model": "prestaciones",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_tipo_cliente": {
+                    "field": "fk_tipo_cliente",
+                    "unique": "prestacion_tipo_clientes_fk_tipo_cliente_fk_prestacion_unique",
+                    "references": {
+                        "model": "tipo_clientes",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "allowNull": true,
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "procesos": {
+            "tableName": "procesos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "titulo": {
+                    "field": "titulo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "proceso_tareas": {
+            "tableName": "proceso_tareas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_proceso": {
+                    "field": "fk_proceso",
+                    "allowNull": true,
+                    "references": {
+                        "model": "procesos",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "unique": "proceso_tareas_fk_tarea_fk_proceso_unique",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_tarea": {
+                    "field": "fk_tarea",
+                    "allowNull": true,
+                    "references": {
+                        "model": "tareas",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "unique": "proceso_tareas_fk_tarea_fk_proceso_unique",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "promotores": {
+            "tableName": "promotores",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nombre": {
+                    "field": "nombre",
+                    "seqType": "Sequelize.STRING"
+                },
+                "nro_referencias": {
+                    "field": "nro_referencias",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "requisitos": {
+            "tableName": "requisitos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "description": {
+                    "field": "description",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tipo": {
+                    "field": "tipo",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "servicios": {
+            "tableName": "servicios",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nombre": {
+                    "field": "nombre",
+                    "seqType": "Sequelize.STRING"
+                },
+                "servicio": {
+                    "field": "servicio",
+                    "seqType": "Sequelize.STRING"
+                },
+                "monto": {
+                    "field": "monto",
+                    "seqType": "Sequelize.DOUBLE"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "subgrupo_cuentas": {
+            "tableName": "subgrupo_cuentas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "titulo": {
+                    "field": "titulo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "ingreso": {
+                    "field": "ingreso",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "fk_grupo_cuenta": {
+                    "field": "fk_grupo_cuenta",
+                    "allowNull": true,
+                    "references": {
+                        "model": "grupo_cuentas",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tareas": {
+            "tableName": "tareas",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "titulo": {
+                    "field": "titulo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tiempo": {
+                    "field": "tiempo",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "estado": {
+                    "field": "estado",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "formulario": {
+                    "field": "formulario",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tarea_archivos": {
+            "tableName": "tarea_archivos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nombre_concatenado": {
+                    "field": "nombre_concatenado",
+                    "seqType": "Sequelize.STRING"
+                },
+                "nombre_completo": {
+                    "field": "nombre_completo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tipo_archivo": {
+                    "field": "tipo_archivo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "mime_type": {
+                    "field": "mime_type",
+                    "seqType": "Sequelize.STRING"
+                },
+                "path": {
+                    "field": "path",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tamanio": {
+                    "field": "tamanio",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_tarea": {
+                    "field": "fk_tarea",
+                    "allowNull": true,
+                    "references": {
+                        "model": "contrato_proceso_tareas",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tarea_seguimientos": {
+            "tableName": "tarea_seguimientos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "descripcion": {
+                    "field": "descripcion",
+                    "seqType": "Sequelize.STRING"
+                },
+                "fk_tarea": {
+                    "field": "fk_tarea",
+                    "allowNull": true,
+                    "references": {
+                        "model": "tareas",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tarea_seguimiento_archivos": {
+            "tableName": "tarea_seguimiento_archivos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "nombre_concatenado": {
+                    "field": "nombre_concatenado",
+                    "seqType": "Sequelize.STRING"
+                },
+                "nombre_completo": {
+                    "field": "nombre_completo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tipo_archivo": {
+                    "field": "tipo_archivo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "mime_type": {
+                    "field": "mime_type",
+                    "seqType": "Sequelize.STRING"
+                },
+                "path": {
+                    "field": "path",
+                    "seqType": "Sequelize.STRING"
+                },
+                "tamanio": {
+                    "field": "tamanio",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_seguimiento_tarea": {
+                    "field": "fk_seguimiento_tarea",
+                    "allowNull": true,
+                    "references": {
+                        "model": "tarea_seguimientos",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tipo_clientes": {
+            "tableName": "tipo_clientes",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "titulo": {
+                    "field": "titulo",
+                    "seqType": "Sequelize.STRING"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        },
+        "tipo_cliente_requisitos": {
+            "tableName": "tipo_cliente_requisitos",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_tipo_cliente": {
+                    "field": "fk_tipo_cliente",
+                    "unique": "tipo_cliente_requisitos_fk_tipo_cliente_fk_requisito_unique",
+                    "references": {
+                        "model": "tipo_clientes",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_requisito": {
+                    "field": "fk_requisito",
+                    "allowNull": true,
+                    "references": {
+                        "model": "requisitos",
+                        "key": "id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "unique": "tipo_cliente_requisitos_fk_tipo_cliente_fk_requisito_unique",
+                    "seqType": "Sequelize.INTEGER"
+                }
+            },
+            "indexes": []
+        },
+        "usuarios": {
+            "tableName": "usuarios",
+            "schema": {
+                "id": {
+                    "allowNull": false,
+                    "autoIncrement": true,
+                    "primaryKey": true,
+                    "field": "id",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "fk_nivel": {
+                    "allowNull": false,
+                    "references": {
+                        "model": "niveles",
+                        "key": "id"
+                    },
+                    "field": "fk_nivel",
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "usuario": {
+                    "allowNull": false,
+                    "unique": true,
+                    "field": "usuario",
+                    "seqType": "Sequelize.STRING"
+                },
+                "password": {
+                    "field": "password",
+                    "seqType": "Sequelize.STRING"
+                },
+                "nombres": {
+                    "allowNull": false,
+                    "field": "nombres",
+                    "seqType": "Sequelize.STRING(50)"
+                },
+                "apellidos": {
+                    "allowNull": false,
+                    "field": "apellidos",
+                    "seqType": "Sequelize.STRING(50)"
+                },
+                "email": {
+                    "field": "email",
+                    "seqType": "Sequelize.STRING"
+                },
+                "ci": {
+                    "field": "ci",
+                    "seqType": "Sequelize.STRING"
+                },
+                "celular": {
+                    "field": "celular",
+                    "seqType": "Sequelize.STRING"
+                },
+                "logins": {
+                    "defaultValue": {
+                        "value": 0
+                    },
+                    "field": "logins",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "last_login": {
+                    "field": "last_login",
+                    "seqType": "Sequelize.DATE"
+                },
+                "is_active": {
+                    "defaultValue": {
+                        "value": true
+                    },
+                    "field": "is_active",
+                    "seqType": "Sequelize.BOOLEAN"
+                },
+                "created_by": {
+                    "field": "created_by",
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "updated_by": {
+                    "field": "updated_by",
+                    "allowNull": true,
+                    "references": {
+                        "model": "usuarios",
+                        "key": "id"
+                    },
+                    "onDelete": "NO ACTION",
+                    "onUpdate": "CASCADE",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "deleted_by": {
+                    "field": "deleted_by",
+                    "seqType": "Sequelize.INTEGER"
+                },
+                "created_at": {
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updated_at": {
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "deleted_at": {
+                    "field": "deleted_at",
+                    "seqType": "Sequelize.DATE"
+                }
+            },
+            "indexes": []
+        }
+    },
+    "path": "C:\\Users\\HP\\Desktop\\gestion_abba\\backend_abba\\migrations\\_current.json",
+    "backupPath": "C:\\Users\\HP\\Desktop\\gestion_abba\\backend_abba\\migrations\\_current_bak.json",
+    "exists": false,
+    "revision": 1
+}
