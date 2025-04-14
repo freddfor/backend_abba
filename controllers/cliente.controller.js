@@ -106,24 +106,6 @@ const index = async (req, res) => {
 
   const result = await Clientes.findAndCountAll({
     include: include_client,
-    // attributes: {
-    //   include: [
-    //     [
-    //       sequelize.fn("nro_contratos", false, sequelize.col("cliente.id")),
-    //       "contratos_activos",
-    //     ],
-    //     [
-    //       sequelize.fn("nro_contratos", true, sequelize.col("cliente.id")),
-    //       "contratos_finalizados",
-    //     ],
-    //     [
-    //       sequelize.fn("total_recaudado", sequelize.col("cliente.id")),
-    //       "recaudado",
-    //     ],
-    //   ],
-    // },
-    // ...where,
-    // order: [[sortBy, orderBy]],
     limit,
     offset,
   });
