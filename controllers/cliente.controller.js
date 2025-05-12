@@ -221,30 +221,7 @@ const list_clientes = async (req, res, next) => {
         model: Departamento,
         attributes: ['sigla']
       },
-        // {
-        //   model: Contratos,
-        //   attributes: ['codigo_contrato', [sequelize.fn('saldo_contrato_actual', sequelize.col('contratos.id')), 'saldo'],],
-        //   required: false,
-        //   include: [{
-        //     model: ContratoProcesoTarea,
-        //     attributes: ['tarea', 'estado'],
-        //     include: {
-        //       model: Proceso,
-        //       attributes: ['titulo'],
-        //     },
-        //     required: false,
-        //     where: { estado: 1 }
-        //   },
-        //   {
-        //     model: Prestacion,
-        //     attributes: ['nombre']
-        //   }
-        //   ]
-        // },
-        // {
-        //   model: Rubro,
-        //   attributes: ['nombre']
-        // }
+
       ],
     });
 
