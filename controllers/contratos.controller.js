@@ -141,6 +141,17 @@ const show = async (req, res, next) => {
         },
       ],
     });
+
+    console.log(contrato, 'contrato completo');
+    
+    if (contrato && contrato.contrato_proceso_tareas) {
+      contrato.contrato_proceso_tareas.forEach(tarea => {
+        if (tarea.tarea_seguimientos && tarea.tarea_seguimientos.length > 0) {
+          tarea.tarea_seguimientos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        }
+      });
+    }
+
     res.status(200).json(contrato);
   } catch (e) {
     next(e);
@@ -150,8 +161,8 @@ const show = async (req, res, next) => {
 const tareas_seguimientos = async (req, res, next) => {
   // const { id } = req.params;
   const { id } = req.query;
-  console.log(req.query,'id contrato');
-  
+  console.log(req.query, 'id contrato');
+
   try {
     const tareas = await ContratoProcesoTarea.findAll({
       where: {
@@ -170,8 +181,17 @@ const tareas_seguimientos = async (req, res, next) => {
         },
       ],
     })
-    
-    res.status(200).json(tareas);
+
+    // Ordenar manualmente los TareaSeguimiento por created_at DESC
+    const tareasOrdenadas = tareas.map(tarea => {
+      if (tarea.tarea_seguimientos && tarea.tarea_seguimientos.length > 0) {
+        tarea.tarea_seguimientos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      }
+      return tarea;
+    });
+
+
+    res.status(200).json(tareasOrdenadas);
   } catch (e) {
     next(e);
   }
@@ -293,9 +313,9 @@ const index = async (req, res, next) => {
 };
 
 const list = async (req, res, next) => {
-  
+
   try {
-    const { skip, take, requireTotalCount, sort, filter } = req.query;  
+    const { skip, take, requireTotalCount, sort, filter } = req.query;
     const filtroCadena = await generateFilterCondition(filter);
     const orderBy = await generateOrderByClause(sort);
     const limite = `limit ${take} offset ${skip}`;
@@ -333,12 +353,12 @@ const list = async (req, res, next) => {
 const excel = async (req, res, next) => {
   try {
     const { skip, take, requireTotalCount, sort, filter } = req.query;
-    
+
     const filtroCadena = await generateFilterCondition(filter);
     const orderBy = await generateOrderByClause(sort);
-    
+
     const rows = await Contrato.listaContratos(filtroCadena, orderBy);
-    console.log(rows,'orden');
+    console.log(rows, 'orden');
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('Contratos');
     // Agregar encabezados
@@ -573,7 +593,7 @@ const store = async (req, res, next) => {
               transaction: t,
             }
           );
-          sw = false;
+
         } else {
           await ContratoProcesoTarea.create(
             {
@@ -593,7 +613,9 @@ const store = async (req, res, next) => {
             }
           );
         }
+
       }
+      sw = false;
     }
     await t.commit();
     res.status(200).json(newContrato);
@@ -634,8 +656,6 @@ const store_titular_fechas = async (req, res, next) => {
     fecha_suspencion,
     fecha_certificacion,
   } = req.body;
-  console.log(req.body, "datos de actualizacion");
-  
   try {
     const contrato = await Contrato.findOne({
       where: { codigo_contrato },
@@ -649,6 +669,34 @@ const store_titular_fechas = async (req, res, next) => {
       fecha_firma,
       fecha_suspencion,
       fecha_certificacion,
+    });
+
+    res.status(200).json(contratoUpdate);
+  } catch (e) {
+    next(e);
+  }
+};
+
+const store_check_fechas = async (req, res, next) => {
+  const {
+    codigo_contrato,
+    check_fecha_recepcion,
+    check_fecha_verificacion,
+    check_fecha_firma,
+    check_fecha_suspencion,
+    check_fecha_certificacion,
+  } = req.body;
+  try {
+    const contrato = await Contrato.findOne({
+      where: { codigo_contrato },
+    });
+
+    const contratoUpdate = await contrato.update({
+      check_fecha_recepcion,
+      check_fecha_firma,
+      check_fecha_verificacion,
+      check_fecha_suspencion,
+      check_fecha_certificacion,
     });
 
     res.status(200).json(contratoUpdate);
@@ -675,8 +723,8 @@ const store_prestaciones = async (req, res, next) => {
     // fecha_suspencion,
     // fecha_certificacion,
   } = req.body;
-  console.log(req.body,'datos fechas---');
-  
+  console.log(req.body, 'datos fechas---');
+
   try {
     const contrato = await Contrato.findOne({
       where: { codigo_contrato },
@@ -1065,7 +1113,8 @@ module.exports = {
   eliminar_observacion,
   actualizarContrato,
   excel,
-  tareas_seguimientos
+  tareas_seguimientos,
+  store_check_fechas,
 };
 
 async function generateOrderByClause(sort) {

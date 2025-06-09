@@ -20,6 +20,7 @@ const {
   excel,
   store_titular_fechas,
   tareas_seguimientos,
+  store_check_fechas,
 } = require("../controllers/contratos.controller");
 const { validateJwt } = require("../middlewares/validate-jwt");
 
@@ -30,6 +31,7 @@ router.get("/excel", excel);
 router.post("/", [validateJwt], store);
 router.post("/prestaciones", [validateJwt], store_prestaciones);
 router.post("/titular_fechas", [validateJwt], store_titular_fechas);
+router.post("/check_fechas", [validateJwt], store_check_fechas);
 router.post("/cc_cliente", [validateJwt], store_cc_cliente);
 router.get("/codigo", show);
 router.get("/tareas_seguimientos", tareas_seguimientos);
