@@ -59,8 +59,16 @@ module.exports = (sequelize, DataTypes) => {
       fecha_verificacion: DataTypes.DATE,
       fecha_suspencion: DataTypes.DATE,
       fecha_certificacion: DataTypes.DATE,
+      // check fechas
+      check_fecha_recepcion:  DataTypes.BOOLEAN,
+      check_fecha_firma: DataTypes.BOOLEAN,
+      check_fecha_verificacion: DataTypes.BOOLEAN,
+      check_fecha_suspencion: DataTypes.BOOLEAN,
+      check_fecha_certificacion: DataTypes.BOOLEAN,
     },
     {
+      
+    
       timestamps: true,
       paranoid: true,
       createdAt: "created_at",
@@ -86,6 +94,7 @@ when 1 then 'Finalizado'
 when 2 then 'Anulado'
 end) as estado_text,
 c.fecha_recepcion,c.fecha_verificacion,c.fecha_firma,c.fecha_suspencion,c.fecha_certificacion,
+c.check_fecha_recepcion,c.check_fecha_verificacion,c.check_fecha_firma,c.check_fecha_suspencion,c.check_fecha_certificacion,
 cl.ci,concat(cl.nombres,' ',cl.apellidos) as cliente, cl.nro_expediente,
 p.nombre as prestacion, 
 concat(u.nombres,' ',u.apellidos) as titular,
