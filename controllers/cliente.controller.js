@@ -379,11 +379,7 @@ const store = async (req, res, next) => {
     await promotorUpdated.update({
       nro_referencias: promotorUpdated.nro_referencias + 1,
     });
-    // if (fk_afp) {
-    // 	const afp_cliente = await Afp.findOne({ where: { id: fk_afp } });
-    // 	await cliente.addAFPs(afp_cliente, { through: { username, password } });
-    // }
-    // await cliente.addAFPs(afp_cliente);
+    
     const nuevo_cliente = await Clientes.findOne({
       where: {
         id: cliente.id,
