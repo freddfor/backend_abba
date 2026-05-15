@@ -148,6 +148,7 @@ const show = async (req, res, next) => {
           model: ContratoEstado,
           separate: true,
           order: [["created_at", "ASC"]],
+          include: [{ model: Usuarios, as: "creado_por", attributes: ["id", "usuario"] }],
         },
       ],
     });
