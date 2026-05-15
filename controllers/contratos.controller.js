@@ -29,7 +29,6 @@ const TareaSeguimiento = require("../models").tarea_seguimiento;
 const ContratoEstado = require("../models").contrato_estados;
 
 const { Op, Sequelize: sequelize } = require("sequelize");
-// const sequelizeTransactions = require('sequelize-transactions');
 
 const { getPagingData, getPagination } = require("../helpers/pagination");
 const { sortBuilder } = require("../helpers/sort");
