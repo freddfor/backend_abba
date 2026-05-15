@@ -11,7 +11,16 @@ const db = {};
 let sequelize;
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+  console.log('HOST:', process.env.DB_HOST);
+  console.log('PORT:', process.env.DB_PORT);
+  console.log('USER:', process.env.DB_USERNAME);
+  console.log('DATABASE:', process.env.DB_DATABASE);
 } else {
+  console.log('else config:', config);
+  console.log('HOST:', process.env.DB_HOST);
+console.log('PORT:', process.env.DB_PORT);
+console.log('USER:', process.env.DB_USERNAME);
+console.log('DATABASE:', process.env.DB_DATABASE);
   sequelize = new Sequelize(
     config.database,
     config.username,
