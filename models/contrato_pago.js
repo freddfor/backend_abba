@@ -35,12 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     contrato_pago.belongsTo(models.usuario, {
       foreignKey: "created_by",
     });
-    // contrato_pago.belongsTo(models.pago_deposito, {
-    //   foreignKey: "fk_deposito",
-    // });
-    // contrato_pago.belongsTo(models.pago_efectivo, {
-    //   foreignKey: "fk_efectivo",
-    // });
+    
     contrato_pago.belongsTo(models.libro_diario, {
       foreignKey: "fk_libro_diario",
     });

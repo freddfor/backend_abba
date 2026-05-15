@@ -53,8 +53,8 @@ module.exports = (sequelize, DataTypes) => {
       usuario: "u.usuario",
     };
     const query = `
-    select c.codigo_contrato ,c.total,c.conclusiones ,c.recomendaciones ,
-concat(c.correlativo,'/',c.anio) as gestion, c.fecha_contrato, c.fecha_finalizacion ,c.state as estado_contrato,c.fk_cliente, 
+    select c.codigo_contrato ,c.total, ce.conclusiones, ce.recomendaciones ,
+concat(c.correlativo,'/',c.anio) as gestion, c.fecha_contrato, ce.created_at as fecha_finalizacion, ce.estado as estado_contrato,c.fk_cliente, 
 cl.ci, concat(cl.nombres,' ',cl.apellidos) as cliente,
 cpt.*, p.titulo as proceso, p2.nombre as prestacion,
 (case cpt.estado 
@@ -69,6 +69,7 @@ inner join contrato_proceso_tareas cpt on c.id = cpt.fk_contrato
 inner join procesos p on cpt.fk_proceso = p.id
 inner join prestaciones p2 on cpt.fk_prestacion = p2.id
 inner join usuarios u on cpt.fk_responsable = u.id 
+left join contrato_estados ce on ce.fk_contrato = c.id and ce.activo = true and ce.deleted_at is null
 where c.deleted_by isnull and c.deleted_at isnull
 order by concat(c.correlativo,'/',c.anio) desc, cpt.fk_proceso, cpt.fk_tarea asc limit :limit offset :offset
     `;
@@ -89,8 +90,8 @@ order by concat(c.correlativo,'/',c.anio) desc, cpt.fk_proceso, cpt.fk_tarea asc
       where = ' and fk_titular = '+fk_usuario
     }
     const query = `
-    select c.codigo_contrato ,c.total,c.conclusiones ,c.recomendaciones , c.fk_titular,
-concat(c.correlativo,'/',c.anio) as gestion, c.fecha_contrato, c.fecha_finalizacion ,c.state as estado_contrato,c.fk_cliente, 
+    select c.codigo_contrato ,c.total, ce.conclusiones, ce.recomendaciones , c.fk_titular,
+concat(c.correlativo,'/',c.anio) as gestion, c.fecha_contrato, ce.created_at as fecha_finalizacion, ce.estado as estado_contrato, c.fk_cliente, 
 cl.ci, concat(cl.nombres,' ',cl.apellidos) as cliente,
 cpt.*,t.tiempo, p.titulo as proceso, p2.nombre as prestacion,
 (case cpt.estado 
@@ -106,7 +107,8 @@ inner join tareas t on cpt.fk_tarea = t.id
 inner join procesos p on cpt.fk_proceso = p.id
 inner join prestaciones p2 on cpt.fk_prestacion = p2.id
 left join usuarios u on cpt.fk_responsable = u.id 
-where c.deleted_by isnull and c.state = 0 and c.fk_prestacion = ${fk_prestacion} ${where}
+inner join contrato_estados ce on ce.fk_contrato = c.id and ce.activo = true and ce.estado = 0 and ce.deleted_at is null
+where c.deleted_by isnull and c.fk_prestacion = ${fk_prestacion} ${where}
     `;
 
     return sequelize.query(query, { 

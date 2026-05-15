@@ -21,6 +21,7 @@ const {
   store_titular_fechas,
   tareas_seguimientos,
   store_check_fechas,
+  cambiar_estado_admin,
 } = require("../controllers/contratos.controller");
 const { validateJwt } = require("../middlewares/validate-jwt");
 
@@ -50,5 +51,8 @@ router.get("/tareas", [validateJwt], contrato_tareas);
 router.post("/observacion", [validateJwt], nueva_observacion);
 router.put("/observacion", [validateJwt], actualizar_observacion);
 router.delete("/observacion/:id", [validateJwt], eliminar_observacion);
+
+// Estados (admin)
+router.post("/estados/cambiar", [validateJwt], cambiar_estado_admin);
 
 module.exports = router;

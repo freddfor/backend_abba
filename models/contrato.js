@@ -29,14 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       a_insalubre: DataTypes.DOUBLE,
       tipo_cc: DataTypes.INTEGER,
       monto_cc: DataTypes.DOUBLE,
-      conclusiones: DataTypes.STRING,
-      recomendaciones: DataTypes.STRING,
-      fecha_finalizacion: DataTypes.DATE,
-      finalizado: DataTypes.BOOLEAN,
-      state: {
-        type: DataTypes.INTEGER,
-        defaultValue: 0
-      },
       correlativo: DataTypes.INTEGER,
       fecha_contrato: DataTypes.DATE,
       anio: DataTypes.INTEGER,
@@ -84,14 +76,15 @@ module.exports = (sequelize, DataTypes) => {
     select * from (
     select c.id, c.codigo_contrato, c.anio, c.correlativo, concat(c.correlativo,'/',c.anio) as gestion ,c.total, 
 saldo_contrato_actual(c.id) as saldo,
-c.conclusiones ,c.recomendaciones, 
-c.created_at,c.state,
+ce.conclusiones, ce.recomendaciones,
+c.created_at, ce.estado as state,
 CASE WHEN c.fecha_contrato IS NULL THEN null ELSE concat(c.fecha_contrato)  END AS fecha_contrato,
 --concat(c.fecha_contrato) as fecha_contrato  ,
-(case c.state 
+(case ce.estado 
 when 0 then 'En Progreso' 
 when 1 then 'Finalizado' 
 when 2 then 'Anulado'
+when 3 then 'Pausado'
 end) as estado_text,
 c.fecha_recepcion,c.fecha_verificacion,c.fecha_firma,c.fecha_suspencion,c.fecha_certificacion,
 c.check_fecha_recepcion,c.check_fecha_verificacion,c.check_fecha_firma,c.check_fecha_suspencion,c.check_fecha_certificacion,
@@ -110,6 +103,7 @@ inner join usuarios u2 on c.fk_suplente = u2.id
 inner join usuarios u3 on c.created_by = u3.id
 inner join departamentos dep on c.departamento = dep.id
 inner join promotores up on cl.fk_promotor = up.id
+left join contrato_estados ce on ce.fk_contrato = c.id and ce.activo = true and ce.deleted_at is null
 where c.deleted_at is null and c.deleted_at is null
 ) as v
 ${filtro}
@@ -125,14 +119,15 @@ ${limit}
     select count(*) from (
     select c.id, c.codigo_contrato, c.anio, c.correlativo, concat(c.correlativo,'/',c.anio) as gestion ,c.total, 
 saldo_contrato_actual(c.id) as saldo,
-c.conclusiones ,c.recomendaciones, 
-c.created_at,c.state,
+ce.conclusiones, ce.recomendaciones,
+c.created_at, ce.estado as state,
 CASE WHEN c.fecha_contrato IS NULL THEN null ELSE concat(c.fecha_contrato)  END AS fecha_contrato,
 --concat(c.fecha_contrato) as fecha_contrato  ,
-(case c.state 
+(case ce.estado 
 when 0 then 'En Progreso' 
 when 1 then 'Finalizado' 
 when 2 then 'Anulado'
+when 3 then 'Pausado'
 end) as estado_text,
 c.fecha_recepcion,c.fecha_verificacion,c.fecha_firma,
 cl.ci,concat(cl.nombres,' ',cl.apellidos) as cliente, cl.nro_expediente,
@@ -150,6 +145,7 @@ inner join usuarios u2 on c.fk_suplente = u2.id
 inner join usuarios u3 on c.created_by = u3.id
 inner join departamentos dep on c.departamento = dep.id
 inner join promotores up on cl.fk_promotor = up.id
+left join contrato_estados ce on ce.fk_contrato = c.id and ce.activo = true and ce.deleted_at is null
 where c.deleted_at is null and c.deleted_at is null
 ) as v
 ${filtro}
@@ -195,6 +191,9 @@ ${filtro}
       foreignKey: "fk_contrato",
     });
     contrato.hasMany(models.contrato_observaciones, {
+      foreignKey: "fk_contrato",
+    });
+    contrato.hasMany(models.contrato_estados, {
       foreignKey: "fk_contrato",
     });
     contrato.hasMany(models.contrato_requisito, {

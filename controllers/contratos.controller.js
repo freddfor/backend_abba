@@ -26,6 +26,7 @@ const AfpCliente = require("../models").afp_cliente;
 const TipoCliente = require("../models").tipo_cliente;
 const Correlativo = require("../models").correlativo;
 const TareaSeguimiento = require("../models").tarea_seguimiento;
+const ContratoEstado = require("../models").contrato_estados;
 
 const { Op, Sequelize: sequelize } = require("sequelize");
 // const sequelizeTransactions = require('sequelize-transactions');
@@ -45,16 +46,8 @@ const show = async (req, res, next) => {
       where: {
         codigo_contrato: cod,
       },
-      order: [
-        [{ model: ContratoProcesoTarea }, "orden", "asc"],
-        [{ model: ContratoProcesoTarea }, "fk_tarea", "asc"],
-        [{ model: ContratoPago }, "created_at", "ASC"],
-        [{ model: ContratoObservacion }, "created_at", "DESC"],
-      ],
       include: [
-        {
-          model: Contrato_Requisito,
-        },
+        // belongsTo (JOIN simple, no producen cartesiano)
         {
           model: Prestacion,
           include: [
@@ -80,7 +73,26 @@ const show = async (req, res, next) => {
           as: "creado_por",
         },
         {
+          model: Clientes,
+          include: [
+            {
+              model: Departamento,
+            },
+            {
+              model: AfpCliente,
+              include: [{ model: Afp }],
+            },
+          ],
+        },
+        // hasMany con separate:true — cada uno ejecuta su propia query sin JOIN cartesiano
+        {
+          model: Contrato_Requisito,
+          separate: true,
+        },
+        {
           model: ContratoPago,
+          separate: true,
+          order: [["created_at", "ASC"]],
           include: [
             {
               model: Usuarios,
@@ -103,9 +115,13 @@ const show = async (req, res, next) => {
         },
         {
           model: ContratoProcesoTarea,
+          separate: true,
+          order: [["orden", "asc"], ["fk_tarea", "asc"]],
           include: [
             {
               model: TareaSeguimiento,
+              separate: true,
+              order: [["created_at", "DESC"]],
             },
             {
               model: Tarea,
@@ -124,33 +140,18 @@ const show = async (req, res, next) => {
           ],
         },
         {
-          model: Clientes,
-          include: [
-            {
-              model: Departamento,
-            },
-            {
-              model: AfpCliente,
-              include: [{ model: Afp }],
-            },
-          ],
+          model: ContratoObservacion,
+          separate: true,
+          order: [["created_at", "DESC"]],
+          include: [{ model: Usuarios, attributes: ["usuario"] }],
         },
         {
-          model: ContratoObservacion,
-          include: [{ model: Usuarios, attributes: ["usuario"] }],
+          model: ContratoEstado,
+          separate: true,
+          order: [["created_at", "ASC"]],
         },
       ],
     });
-
-    console.log(contrato, 'contrato completo');
-    
-    if (contrato && contrato.contrato_proceso_tareas) {
-      contrato.contrato_proceso_tareas.forEach(tarea => {
-        if (tarea.tarea_seguimientos && tarea.tarea_seguimientos.length > 0) {
-          tarea.tarea_seguimientos.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-        }
-      });
-    }
 
     res.status(200).json(contrato);
   } catch (e) {
@@ -505,7 +506,6 @@ const store = async (req, res, next) => {
         fk_prestacion,
         created_by: req.user.id,
         fk_user_firma,
-        finalizado: false,
         departamento,
         dh_primerg,
         dh_tercerg,
@@ -520,6 +520,19 @@ const store = async (req, res, next) => {
         transaction: t,
       }
     );
+
+    await ContratoEstado.create(
+      {
+        fk_contrato: newContrato.id,
+        estado: 0,
+        activo: true,
+        created_by: req.user.id,
+      },
+      {
+        transaction: t,
+      }
+    );
+
     for (const rc of requisitos_contrato) {
       for (const r of rc.requisitos) {
         await Contrato_Requisito.create(
@@ -814,23 +827,32 @@ const store_pago = async (req, res, next) => {
 
 const finalizar_contrato = async (req, res, next) => {
   const { conclusiones, recomendaciones, cod, state } = req.body;
+  const db = require("../models");
   try {
     const contratoOne = await Contrato.findOne({
       where: { codigo_contrato: cod },
     });
 
-    const contrato_updated = await contratoOne.update({
-      finalizado: true,
-      state,
-      conclusiones,
-      recomendaciones,
-      fecha_finalizacion: new Date(),
+    await db.sequelize.transaction(async (t) => {
+      await ContratoEstado.update(
+        { activo: false, updated_by: req.user.id },
+        { where: { fk_contrato: contratoOne.id, activo: true }, transaction: t }
+      );
+      await ContratoEstado.create(
+        {
+          fk_contrato: contratoOne.id,
+          estado: state,
+          activo: true,
+          conclusiones: conclusiones || null,
+          recomendaciones: recomendaciones || null,
+          created_by: req.user.id,
+        },
+        { transaction: t }
+      );
     });
 
     const contrato = await Contrato.findOne({
-      where: {
-        codigo_contrato: contrato_updated.codigo_contrato,
-      },
+      where: { codigo_contrato: cod },
       order: [
         [{ model: ContratoProcesoTarea }, "estado", "DESC"],
         [{ model: ContratoProcesoTarea }, "orden", "asc"],
@@ -839,51 +861,26 @@ const finalizar_contrato = async (req, res, next) => {
         [{ model: ContratoObservacion }, "created_at", "DESC"],
       ],
       include: [
-        {
-          model: Contrato_Requisito,
-        },
+        { model: Contrato_Requisito },
         {
           model: Prestacion,
           include: [
-            {
-              model: Cuenta,
-              attributes: ["id", "titulo", "ingreso", "fk_subgrupo_cuenta"],
-            },
-            {
-              model: Servicio,
-            },
+            { model: Cuenta, attributes: ["id", "titulo", "ingreso", "fk_subgrupo_cuenta"] },
+            { model: Servicio },
           ],
         },
-        {
-          model: Usuarios,
-          as: "titular",
-        },
-        {
-          model: Usuarios,
-          as: "suplente",
-        },
-        {
-          model: Usuarios,
-          as: "creado_por",
-        },
+        { model: Usuarios, as: "titular" },
+        { model: Usuarios, as: "suplente" },
+        { model: Usuarios, as: "creado_por" },
         {
           model: ContratoPago,
           include: [
-            {
-              model: Usuarios,
-            },
+            { model: Usuarios },
             {
               model: LibroDiario,
               include: [
                 { model: PagoEfectivo },
-                {
-                  model: PagoDeposito,
-                  include: [
-                    {
-                      model: CuentaBancaria,
-                    },
-                  ],
-                },
+                { model: PagoDeposito, include: [{ model: CuentaBancaria }] },
               ],
             },
           ],
@@ -891,43 +888,31 @@ const finalizar_contrato = async (req, res, next) => {
         {
           model: ContratoProcesoTarea,
           include: [
-            {
-              model: Tarea,
-              as: "tarea_contrato",
-            },
-            {
-              model: Archivo,
-            },
-            {
-              model: Proceso,
-            },
-            {
-              model: Usuarios,
-              as: "responsable",
-            },
+            { model: Tarea, as: "tarea_contrato" },
+            { model: Archivo },
+            { model: Proceso },
+            { model: Usuarios, as: "responsable" },
           ],
         },
         {
           model: Clientes,
           include: [
-            {
-              model: Departamento,
-            },
-            {
-              model: AfpCliente,
-              include: [{ model: Afp }],
-            },
+            { model: Departamento },
+            { model: AfpCliente, include: [{ model: Afp }] },
           ],
         },
         {
           model: ContratoObservacion,
           include: [{ model: Usuarios, attributes: ["usuario"] }],
         },
+        {
+          model: ContratoEstado,
+          separate: true,
+          order: [["created_at", "ASC"]],
+        },
       ],
     });
     res.status(200).json(contrato);
-
-    // res.status(200).json(contrato_updated);
   } catch (e) {
     next(e);
   }
@@ -957,7 +942,11 @@ const contrato_tareas = async (req, res, next) => {
     const contrato = await Contrato.findAll({
       where: {
         fk_prestacion,
-        state: 0,
+        id: {
+          [Op.in]: sequelize.literal(
+            `(SELECT fk_contrato FROM contrato_estados WHERE estado = 0 AND activo = true AND deleted_at IS NULL)`
+          ),
+        },
       },
       attributes: {
         include: [
@@ -1095,6 +1084,33 @@ const actualizarContrato = async (req, res, next) => {
   }
 };
 
+const cambiar_estado_admin = async (req, res, next) => {
+  const { fk_contrato, estado, conclusiones, recomendaciones } = req.body;
+  const db = require("../models");
+  try {
+    await db.sequelize.transaction(async (t) => {
+      await ContratoEstado.update(
+        { activo: false, updated_by: req.user.id },
+        { where: { fk_contrato, activo: true }, transaction: t }
+      );
+      await ContratoEstado.create(
+        {
+          fk_contrato,
+          estado,
+          activo: true,
+          conclusiones: conclusiones || null,
+          recomendaciones: recomendaciones || null,
+          created_by: req.user.id,
+        },
+        { transaction: t }
+      );
+    });
+    res.status(200).json({ success: true });
+  } catch (e) {
+    next(e);
+  }
+};
+
 module.exports = {
   list,
   show,
@@ -1115,6 +1131,7 @@ module.exports = {
   excel,
   tareas_seguimientos,
   store_check_fechas,
+  cambiar_estado_admin,
 };
 
 async function generateOrderByClause(sort) {
