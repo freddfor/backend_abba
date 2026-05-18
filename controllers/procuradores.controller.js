@@ -15,6 +15,7 @@ const Tarea = require("../models").tarea;
 const TareaArchivo = require("../models").tarea_archivo;
 const Archivo = require("../models").archivo;
 const Usuarios = require("../models").usuario;
+const ContratoEstados = require("../models").contrato_estados;
 
 // const sequelize = require('sequelize');
 
@@ -154,12 +155,15 @@ const show_tasks_month = async (req, res, next) => {
       include: [
         {
           model: Contrato,
-          where: {
-            state: 0
-          },
+          required: true,
           include: [
             {
               model: Clientes,
+            },
+            {
+              model: ContratoEstados,
+              where: { estado: 0, activo: true },
+              required: true,
             },
           ],
         },
@@ -183,11 +187,12 @@ const show_tasks = async (req, res, next) => {
   console.log(estado, fecha, filtro, 'datos ----');
   try {
     let orderBy;
-    if (estado === 1) {
+    if (parseInt(estado) === 1) {
       orderBy = ["fecha_fin", "ASC"];
     } else {
       orderBy = ["fecha_conclusion", "DESC"];
     }
+    const busqueda = filtro ? filtro.toLowerCase() : '';
     const procurador = await ContratoProcesoTarea.findAll({
       where: {
         fk_responsable: req.user.id,
@@ -204,22 +209,22 @@ const show_tasks = async (req, res, next) => {
               sequelize.where(
                 sequelize.fn("lower", sequelize.col("tarea")),
                 "like",
-                `%${filtro.toLowerCase()}%`
+                `%${busqueda}%`
               ),
               sequelize.where(
                 sequelize.fn("lower", sequelize.col("contrato.codigo_contrato")),
                 "like",
-                `%${filtro.toLowerCase()}%`
+                `%${busqueda}%`
               ),
               sequelize.where(
                 sequelize.fn("lower", sequelize.col("contrato.cliente.nombres")),
                 "like",
-                `%${filtro.toLowerCase()}%`
+                `%${busqueda}%`
               ),
               sequelize.where(
                 sequelize.fn("lower", sequelize.col("contrato.cliente.apellidos")),
                 "like",
-                `%${filtro.toLowerCase()}%`
+                `%${busqueda}%`
               ),
             ],
           },
@@ -229,12 +234,15 @@ const show_tasks = async (req, res, next) => {
       include: [
         {
           model: Contrato,
-          where: {
-            state: 0,
-          },
+          required: true,
           include: [
             {
               model: Clientes,
+            },
+            {
+              model: ContratoEstados,
+              where: { estado: 0, activo: true },
+              required: true,
             },
           ],
         },
